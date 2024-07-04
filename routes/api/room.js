@@ -20,7 +20,7 @@ router.post("/addRoom", function (req, res) {
       }
     }
     res.status(200).json({
-      code: "200",
+      code: 200,
       msg: "success",
       data
     })
@@ -76,7 +76,7 @@ router.get("/getlist", function (req, res) {
       })
     }
     res.json({
-      code: "200",
+      code: 200,
       msg: "success",
       data: data
     })
@@ -95,7 +95,7 @@ router.get("/:id", function (req, res) {
       })
     }
     res.json({
-      code: "200",
+      code: 200,
       msg: "success",
       data: data
     })
@@ -114,7 +114,7 @@ router.patch("/:id", function (req, res) {
       })
     }
     res.json({
-      code: "200",
+      code: 200,
       msg: "success",
       data: data
     })

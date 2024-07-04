@@ -53,7 +53,7 @@ router.post("/getRental", function (req, res) {
       let paramData = []
       const moduleData = {
         electricityPrice: 1, // 电费
-        waterPrice: 5, // 水费
+        waterPrice: 6, // 水费
         rentalVersion: rentalVersion,
         isPay: false
       }
@@ -99,11 +99,47 @@ router.patch("/:id", function (req, res) {
       })
     }
     res.json({
-      code: "200",
+      code: 200,
       msg: "success",
       data: data
     })
   })
+})
+
+// 更新所有记录的 waterPrice，根据传入的值 x
+router.patch("/updateWaterPrice", async function (req, res) {
+  let { waterPrice } = req.body
+
+  // 尝试将传入的 waterPrice 转换为数字
+  waterPrice = Number(waterPrice)
+  
+  // 检查转换后的 waterPrice 是否为有效的数字
+  if (isNaN(waterPrice)) {
+    return res.status(500).json({
+      code: 500,
+      msg: "Invalid input: waterPrice must be a valid number",
+      data: null
+    })
+  }
+
+  try {
+    const updateResult = await RentalModel.updateMany(
+      {}, // 空过滤器匹配所有文档
+      { $set: { waterPrice: waterPrice } }
+    ).exec()
+
+    res.status(200).json({
+      code: 200,
+      msg: `All water prices updated to ${waterPrice}`,
+      data: updateResult
+    })
+  } catch (err) {
+    res.status(500).json({
+      code: 500,
+      msg: "Internal Server Error",
+      data: err
+    })
+  }
 })
 
 // 导出路由

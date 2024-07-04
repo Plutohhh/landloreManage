@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "serve": "nodemon ./bin/www"
+    "serve": "nodemon ./bin/www",
+    "prod": "node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
