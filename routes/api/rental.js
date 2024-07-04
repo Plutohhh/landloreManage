@@ -13,7 +13,18 @@ router.post("/getRentalRoom", async function (req, res) {
     }).exec()
     // 租客表数据
     const roomData = await RoomModel.find({ isRenting: true }).exec()
-
+    if (rentalData.length === 0) {
+      const moduleData = {
+        electricityPrice: 1, // 电费
+        waterPrice: 6, // 水费
+        rentalVersion: rentalVersion,
+        isPay: false
+      }
+      for (let i = 101; i <= 601; i += 100) {
+        rentalData.push({ roomNumber: i, ...moduleData })
+        rentalData.push({ roomNumber: i + 1, ...moduleData })
+      }
+    }
     rentalData = rentalData.map((item) => {
       const result = JSON.parse(JSON.stringify(item))
       const findData = roomData.find(
