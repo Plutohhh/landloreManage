@@ -107,13 +107,8 @@ router.patch("/:id", function (req, res) {
 })
 
 // 更新所有记录的 waterPrice，根据传入的值 x
-router.patch("/updateWaterPrice", async function (req, res) {
-  let { waterPrice } = req.body
-
-  // 尝试将传入的 waterPrice 转换为数字
-  waterPrice = Number(waterPrice)
-  
-  // 检查转换后的 waterPrice 是否为有效的数字
+router.post("/updateWaterPrice", async function (req, res) {
+  const waterPrice = Number(req.body.waterPrice)
   if (isNaN(waterPrice)) {
     return res.status(500).json({
       code: 500,
@@ -124,9 +119,9 @@ router.patch("/updateWaterPrice", async function (req, res) {
 
   try {
     const updateResult = await RentalModel.updateMany(
-      {}, // 空过滤器匹配所有文档
+      {}, // 空的过滤条件，匹配所有文档
       { $set: { waterPrice: waterPrice } }
-    ).exec()
+    )
 
     res.status(200).json({
       code: 200,
