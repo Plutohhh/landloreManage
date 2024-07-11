@@ -8,7 +8,11 @@ module.exports = function (success, error) {
   mongoose.set("strictQuery", true)
 
   // 连接mongo数据库
-  mongoose.connect(`mongodb://${DBHOST}:${DBPORT}/${DBNAME}`)
+  mongoose.connect(`mongodb://${DBHOST}:${DBPORT}/${DBNAME}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false 
+  })
 
   mongoose.connection.once("open", () => {
     success()
