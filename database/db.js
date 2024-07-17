@@ -3,16 +3,19 @@ module.exports = function (success, error) {
   // 导入mongoose
   const mongoose = require("mongoose")
   // 导入配置项
-  const { DBHOST, DBPORT, DBNAME } = require("../config/config")
+  const { DBHOST, DBPORT, DBNAME, DBUSER, DBPASS } = require("../config/config")
   // 严格查询模式
   mongoose.set("strictQuery", true)
 
   // 连接mongo数据库
-  mongoose.connect(`mongodb://${DBHOST}:${DBPORT}/${DBNAME}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false 
-  })
+  mongoose.connect(
+    `mongodb://${DBUSER}:${DBPASS}@${DBHOST}:${DBPORT}/${DBNAME}`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false
+    }
+  )
 
   mongoose.connection.once("open", () => {
     success()
